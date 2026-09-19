@@ -75,10 +75,11 @@ export default function PolitykaPrywatnosciPage() {
         <h2 className="text-xl font-semibold mb-3 text-gray-800">§7. Pliki cookies</h2>
         <ul className="list-disc list-inside space-y-2 text-gray-600 text-sm leading-relaxed">
           <li><strong>Niezbędne</strong> — sesja użytkownika (zalogowanie), koszyk zakupowy. Wymagane do działania serwisu.</li>
-          <li><strong>Analityczne</strong> — Google Analytics 4 (jeśli aktywne) zbiera anonimowe dane o ruchu w serwisie. Możesz je wyłączyć w ustawieniach przeglądarki.</li>
+          <li><strong>Analityczne</strong> — Google Analytics 4 (jeśli skonfigurowane) uruchamiamy po Twojej zgodzie na statystyki. Służy do pomiaru odwiedzin i korzystania ze sklepu; odbiorcą danych jest Google.</li>
+          <li><strong>Marketingowe</strong> — Piksel Meta uruchamiamy po Twojej zgodzie na marketing. Przekazuje Meta informacje o odwiedzinach, adresie strony oraz dane techniczne przeglądarki i urządzenia w celu pomiaru skuteczności reklam. Meta może powiązać te informacje z Twoim kontem w swoich usługach.</li>
         </ul>
         <p className="text-gray-600 text-sm leading-relaxed mt-3">
-          Możesz zablokować lub usunąć pliki cookies w ustawieniach swojej przeglądarki.
+          Opcjonalne statystyki i marketing są domyślnie wyłączone. Możesz wybrać „Tylko niezbędne”, zaakceptować wszystkie opcje lub zapisać oddzielny wybór dla statystyk i marketingu. Decyzję zapisujemy w przeglądarce na 180 dni. Zmienisz ją lub wycofasz zgodę przyciskiem „Ustawienia cookies”. Wycofanie zgody powoduje odświeżenie strony i zatrzymanie opcjonalnych narzędzi; nie usuwa danych przekazanych wcześniej. Możesz też usunąć dane witryny w ustawieniach przeglądarki.
         </p>
       </section>
 
