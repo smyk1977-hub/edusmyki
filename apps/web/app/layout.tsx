@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Baloo_2, DM_Sans } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import CookieConsent from "@/components/privacy/CookieConsent";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -52,9 +52,7 @@ export default function RootLayout({
       <body>
         {children}
         <Toaster />
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
+        <CookieConsent />
       </body>
     </html>
   );
