@@ -190,6 +190,8 @@ export async function sendInvoiceRequestEmail(
       "Wystaw fakturę w wFirma i wyślij ją klientowi.",
       "Ta wiadomość jest powiadomieniem, nie fakturą.",
     ].join("\n"),
+    }, {
+    idempotencyKey: `invoice-request/${order.documentId}`,
   });
 
   if (error) {
