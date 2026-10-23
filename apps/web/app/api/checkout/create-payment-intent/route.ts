@@ -8,6 +8,23 @@ const checkoutSchema = z.object({
   email: z.string().email(),
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
+  invoiceRequested: z.boolean().optional().default(false),
+  invoiceData: z.object({
+    companyName: z.string().trim().min(1).max(200),
+    nip: z.string().regex(/^\d{10}$/),
+    address: z.string().trim().min(1).max(200),
+    city: z.string().trim().min(1).max(100),
+    postalCode: z.string().regex(/^\d{2}-\d{3}$/),
+    country: z.literal("PL"),
+  }).optional(),
+}).superRefine((data, ctx) => {
+  if (data.invoiceRequested && !data.invoiceData) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["invoiceData"],
+      message: "Uzupełnij dane do faktury",
+    });
+  }
 });
 
 export async function POST(req: NextRequest) {
@@ -50,7 +67,8 @@ export async function POST(req: NextRequest) {
       guestEmail: data.email,
       guestFirstName: data.firstName,
       guestLastName: data.lastName,
-      invoiceRequested: false,
+     invoiceRequested: data.invoiceRequested,
+invoiceData: data.invoiceRequested ? data.invoiceData : undefined,
       paymentIntentId: paymentIntent.id,
     });
 
