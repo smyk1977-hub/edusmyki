@@ -274,6 +274,72 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ─── O MNIE ─── */}
+      <section id="o-mnie" className="bg-[#FFF8F0] py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-5 lg:gap-16">
+            <div className="lg:col-span-2">
+              <img
+                src="/0d950b50-fd6c-4662-9ec2-ca809038d551.png"
+                alt="Gosia — autorka EduSmyka"
+                loading="lazy"
+                className="mx-auto h-auto w-full max-w-sm rounded-3xl shadow-lg"
+              />
+            </div>
+
+            <div className="lg:col-span-3">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#806044]">
+                Poznajmy się
+              </p>
+
+              <h2 className="mb-6 text-3xl font-bold leading-tight text-gray-900 md:text-4xl">
+                Za EduSmykiem stoję ja — Gosia
+              </h2>
+
+              <div className="space-y-4 text-base leading-relaxed text-gray-700 md:text-lg">
+                <p>
+                  Moja codzienność jest związana z dziećmi. Pracowałam
+                  w przedszkolu, a dziś towarzyszę najmłodszym w żłobku —
+                  w ich pierwszych próbach, małych odkryciach i wielkich
+                  emocjach.
+                </p>
+
+                <p>
+                  W tej pracy dobrze wiem, ile kryje się za prostą zabawą:
+                  pomysł, przygotowanie, uważność na potrzeby dzieci
+                  i gotowość, żeby zmienić plan. Wiem też, jak wiele czasu
+                  zajmują obowiązki, których nie widać na zdjęciach z zajęć.
+                </p>
+
+                <p>
+                  <strong>
+                    EduSmyk to miejsce, w którym dzielę się swoim
+                    doświadczeniem i pomysłami.
+                  </strong>{" "}
+                  Tworzę materiały dla opiekunek, nauczycieli i osób
+                  prowadzących placówki — od zabaw i pomocy do druku
+                  po scenariusze i dokumentację.
+                </p>
+
+                <p>
+                  Zależy mi, żeby były wsparciem w Twojej codzienności:
+                  podsuwały pomysł, ułatwiały przygotowania i pomagały
+                  znaleźć przestrzeń na spokojne, uważne bycie z dziećmi.
+                </p>
+
+                <p>
+                  Cieszę się, że tu jesteś. Rozgość się i znajdź coś
+                  dla siebie i swojej grupy.
+                </p>
+
+                <p className="pt-2 font-semibold text-gray-900">
+                  Gosia — autorka EduSmyka
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     
 
       {/* ─── WHY US ─── */}
