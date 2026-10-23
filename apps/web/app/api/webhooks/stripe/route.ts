@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getOrderByPaymentIntentId, updateOrderStatus } from "@/lib/strapi";
 import { generateDownloadTokensForOrder } from "@/lib/download-tokens";
-import { sendOrderConfirmationEmail } from "@/lib/email";
+import { sendOrderConfirmationEmail, sendInvoiceRequestEmail } from "@/lib/email";
 import type Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         console.error(`Stripe webhook: order not found for paymentIntent ${paymentIntent.id}`);
         return NextResponse.json({ received: true, warning: "order_not_found" });
       }
-
+      await sendInvoiceRequestEmail(order);
       if (order.status === "paid") {
         return NextResponse.json({ status: "already_processed" });
       }
