@@ -274,33 +274,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ─── CATEGORIES ─── */}
-      {categories.length > 0 && (
-        <section className="py-20" style={{ background: "linear-gradient(135deg, #4BBFCA 0%, #2EADB8 100%)" }}>
-          <div className="container mx-auto px-4">
-            <div className="mb-10 text-center">
-              <h2 className="text-4xl font-bold text-white">{h.categoriesTitle}</h2>
-              <p className="mt-2 text-white/70">{h.categoriesSubtitle}</p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-3">
-              {categories.map((cat, i) => {
-                const colors = ["#F5A623", "#7BC44C", "#FF8C5A", "#9B59B6", "#F5A623"];
-                const bg = colors[i % colors.length];
-                return (
-                  <Link
-                    key={cat.id}
-                    href={`/katalog?kategoria=${cat.slug}`}
-                    className="rounded-full px-6 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:scale-105 hover:shadow-lg"
-                    style={{ backgroundColor: bg }}
-                  >
-                    {cat.name}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
+    
 
       {/* ─── WHY US ─── */}
       <section className="py-24 bg-white">
