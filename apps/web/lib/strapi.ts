@@ -143,7 +143,15 @@ export async function createOrder(data: {
   guestEmail: string;
   guestFirstName: string;
   guestLastName: string;
-  invoiceRequested: false;
+  invoiceRequested: boolean;
+  invoiceData?: {
+    companyName: string;
+    nip: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
   paymentIntentId?: string;
 }): Promise<Order> {
   const res = await strapiRequest<{ data: Order }>("/orders", {
