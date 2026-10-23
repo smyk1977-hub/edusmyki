@@ -34,6 +34,46 @@ const checkoutSchema = z.object({
       "Zgoda na dostarczenie treści cyfrowej jest wymagana"
     ),
   marketingConsent: z.boolean().optional(),
+  invoiceRequested: z.boolean().optional(),
+  companyName: z.string().trim().max(200).optional(),
+  nip: z.string().trim().optional(),
+  address: z.string().trim().max(200).optional(),
+  city: z.string().trim().max(100).optional(),
+  postalCode: z.string().trim().optional(),
+}).superRefine((data, ctx) => {
+  if (!data.invoiceRequested) return;
+
+  const requiredFields = [
+    ["companyName", "Podaj nazwę firmy lub placówki"],
+    ["address", "Podaj ulicę i numer budynku"],
+    ["city", "Podaj miejscowość"],
+  ] as const;
+
+  for (const [field, message] of requiredFields) {
+    if (!data[field]) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: [field],
+        message,
+      });
+    }
+  }
+
+  if (!/^\d{10}$/.test(data.nip || "")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["nip"],
+      message: "Podaj NIP: 10 cyfr bez spacji i myślników",
+    });
+  }
+
+  if (!/^\d{2}-\d{3}$/.test(data.postalCode || "")) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["postalCode"],
+      message: "Podaj kod pocztowy w formacie 00-000",
+    });
+  }
 });
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
@@ -50,17 +90,26 @@ export function CheckoutForm() {
   const router = useRouter();
   const isFree = totalPrice() === 0;
 
-  const {
+    const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
       termsAccepted: undefined,
       digitalDeliveryConsent: undefined,
+      invoiceRequested: false,
+      companyName: "",
+      nip: "",
+      address: "",
+      city: "",
+      postalCode: "",
     },
   });
+
+  const invoiceRequested = watch("invoiceRequested");
 
   if (items.length === 0) {
     return (
@@ -76,13 +125,23 @@ export function CheckoutForm() {
   async function onSubmit(data: CheckoutFormData) {
     setLoading(true);
     try {
-      const payload = {
+          const payload = {
         ebookIds: items.map((i) => i.ebookId),
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
+        invoiceRequested: !isFree && !!data.invoiceRequested,
+        invoiceData: !isFree && data.invoiceRequested
+          ? {
+              companyName: data.companyName,
+              nip: data.nip,
+              address: data.address,
+              city: data.city,
+              postalCode: data.postalCode,
+              country: "PL",
+            }
+          : undefined,
       };
-
       if (isFree) {
         const res = await fetch("/api/checkout/free-order", {
           method: "POST",
@@ -215,6 +274,59 @@ export function CheckoutForm() {
               </div>
             </CardContent>
           </Card>
+          {!isFree && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Dane do faktury</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    id="invoiceRequested"
+                    type="checkbox"
+                    {...register("invoiceRequested")}
+                    className="h-4 w-4"
+                  />
+                  <Label htmlFor="invoiceRequested">
+                    Chcę fakturę
+                  </Label>
+                </div>
+
+                {invoiceRequested && (
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {([
+                      ["companyName", "Nazwa firmy lub placówki", "np. Żłobek Słoneczko"],
+                      ["nip", "NIP", "10 cyfr bez spacji i myślników"],
+                      ["address", "Ulica i numer budynku / lokalu", "np. Leśna 5/2"],
+                      ["city", "Miejscowość", "np. Wrocław"],
+                      ["postalCode", "Kod pocztowy", "00-000"],
+                    ] as const).map(([name, label, placeholder]) => (
+                      <div key={name}>
+                        <Label htmlFor={name}>{label} *</Label>
+                        <Input
+                          id={name}
+                          placeholder={placeholder}
+                          {...register(name)}
+                          aria-invalid={!!errors[name]}
+                          aria-describedby={
+                            errors[name] ? `${name}-error` : undefined
+                          }
+                        />
+                        {errors[name] && (
+                          <p
+                            id={`${name}-error`}
+                            className="mt-1 text-sm text-red-500"
+                          >
+                            {errors[name]?.message}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
           {/* Consents */}
           <Card>
