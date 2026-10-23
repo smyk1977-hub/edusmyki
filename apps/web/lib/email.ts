@@ -153,3 +153,46 @@ export async function sendAdminReviewNotification(data: {
     `,
   });
 }
+export async function sendInvoiceRequestEmail(
+  order: Order
+): Promise<void> {
+  if (!order.invoiceRequested) return;
+
+  const invoice = order.invoiceData;
+  const amount = Number(order.totalAmount).toFixed(2);
+
+  const products = order.items
+    .map((item) => `- ${item.ebookTitle}: ${Number(item.price).toFixed(2)} zł`)
+    .join("\n");
+
+  const { error } = await resend.emails.send({
+    from: FROM,
+    to: "kontakt@edusmyki.pl",
+    subject: `Klient prosi o fakturę — ${order.orderNumber}`,
+    text: [
+      "Klient opłacił zamówienie i zaznaczył „Chcę fakturę”.",
+      "",
+      `Numer zamówienia: ${order.orderNumber}`,
+      `Kwota: ${amount} zł`,
+      `E-mail klienta: ${order.guestEmail || "Brak"}`,
+      "",
+      "Zakupione produkty:",
+      products,
+      "",
+      "Dane do faktury:",
+      `Nazwa: ${invoice?.companyName || "Brak danych"}`,
+      `NIP: ${invoice?.nip || "Brak danych"}`,
+      `Adres: ${invoice?.address || "Brak danych"}`,
+      `Kod pocztowy: ${invoice?.postalCode || "Brak danych"}`,
+      `Miejscowość: ${invoice?.city || "Brak danych"}`,
+      `Kraj: ${invoice?.country || "PL"}`,
+      "",
+      "Wystaw fakturę w wFirma i wyślij ją klientowi.",
+      "Ta wiadomość jest powiadomieniem, nie fakturą.",
+    ].join("\n"),
+  });
+
+  if (error) {
+    throw new Error("Nie udało się wysłać powiadomienia o fakturze.");
+  }
+}
