@@ -183,9 +183,13 @@ export async function getOrderByPaymentIntentId(paymentIntentId: string): Promis
   const qs = new URLSearchParams({
     "filters[paymentIntentId][$eq]": paymentIntentId,
     "populate[items][populate][ebook]": "true",
+    "populate[invoiceData]": "true",
   });
 
-  const res = await strapiRequest<StrapiResponse<Order[]>>(`/orders?${qs}`);
+  const res = await strapiRequest<StrapiResponse<Order[]>>(
+    `/orders?${qs}`,
+    { cache: "no-store" }
+  );
   return res.data[0] ?? null;
 }
 
