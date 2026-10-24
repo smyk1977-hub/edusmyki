@@ -66,7 +66,7 @@ export default async function KatalogPage({ searchParams }: KatalogPageProps) {
       <PageHeader
         pill="📚 Katalog"
         title="Katalog materiałów"
-        description="50+ ebooków i dokumentów dla żłobków i przedszkoli"
+       description="50+ materiałów i dokumentów dla żłobków i przedszkoli"
       />
 
       <div className="container mx-auto px-4 py-10">
