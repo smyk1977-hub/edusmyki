@@ -38,7 +38,7 @@ export default async function HomePage() {
     ],
     stats: hp?.stats?.length ? hp.stats : [
       { id: 1, value: "500+", label: "dyrektorów i właścicieli" },
-      { id: 2, value: "50+",  label: "dostępnych ebooków" },
+   label: "dostępnych materiałów"
       { id: 3, value: "30",   label: "dni dostępu po zakupie" },
       { id: 4, value: "100%", label: "zgodność z przepisami" },
     ],
