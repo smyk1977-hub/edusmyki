@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Trash2, ShoppingBag, BookOpen } from "lucide-react";
 import { STRAPI_MEDIA_URL } from "@/lib/strapi";
+import { CartRecommendations } from "./CartRecommendations";
 
 export function CartPageContent() {
   const { items, removeItem, totalPrice, totalItems } = useCartStore();
@@ -82,6 +83,7 @@ export function CartPageContent() {
             </Card>
           );
         })}
+        <CartRecommendations />
       </div>
 
       {/* Summary */}
