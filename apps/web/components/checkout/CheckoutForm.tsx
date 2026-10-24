@@ -17,6 +17,7 @@ import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripePaymentForm } from "./StripePaymentForm";
+import { CartRecommendations } from "@/components/cart/CartRecommendations";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -390,7 +391,8 @@ export function CheckoutForm() {
         </div>
 
         {/* Order summary */}
-        <div>
+        <div className="space-y-4">
+          <CartRecommendations />
           <Card style={{ background: "#FFFBF5", borderColor: "#FFE4A0" }}>
             <CardContent className="pt-6 space-y-4">
               <h2 className="text-lg font-semibold">Twoje zamówienie</h2>
