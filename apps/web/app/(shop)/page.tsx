@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link";import Script from "next/script";
 import { getEbooks, getCategories, getFeaturedReviews, getHomepage } from "@/lib/strapi";
 import { EbookCard } from "@/components/catalog/EbookCard";
 import { Button } from "@/components/ui/button";
@@ -481,7 +481,22 @@ export default async function HomePage() {
             <p>{h.seoText2}</p>
           </div>
         </div>
+      </section>      {/* Newsletter EduSmyk */}
+      <section id="newsletter" className="bg-[#FFF8F0] px-4 py-16">
+        <div className="mx-auto max-w-xl">
+          <div className="ml-embedded" data-form="dqT7Ck"></div>
+        </div>
       </section>
+
+      <Script id="mailerlite-universal" strategy="afterInteractive">
+        {`
+          (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+          .push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+          n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+          (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+          ml('account', '2737930');
+        `}
+      </Script>
     </>
   );
 }
